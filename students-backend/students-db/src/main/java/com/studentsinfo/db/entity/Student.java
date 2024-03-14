@@ -34,6 +34,7 @@ public class Student {
     @Column(nullable = false)
     private Double cgpa;
 
+
     @Id
     @Column(nullable = false,unique = true)
     private String usn;

@@ -1,6 +1,7 @@
 package com.studentsinfo.db.controller;
 
 
+import com.studentsinfo.db.entity.Student;
 import com.studentsinfo.db.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -42,8 +47,23 @@ public class StudentController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading Data" + e.getMessage());
         }
-
     }
+
+    @GetMapping("/getStudentByUSN")
+    public Optional<Student> getStudentByUSN(@RequestParam("usn") String usn, @RequestParam("date")LocalDate date){
+        String formatUsn = usn.toUpperCase();
+         Optional<Student> student = studentService.findByUSN(formatUsn);
+         LocalDate dateRetrieved = student.map(Student::getDate).orElseThrow(null);
+         if(date.equals(dateRetrieved)){
+             System.out.println("Login Success");
+         }
+         else {
+             System.out.println("User Name / Pwd is incorrect");
+         }
+        return student;
+    }
+
+
 
 
 }

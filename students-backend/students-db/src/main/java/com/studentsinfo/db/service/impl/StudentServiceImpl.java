@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -70,8 +71,10 @@ public class StudentServiceImpl implements StudentService {
         return students;
     }
 
-
-
+    @Override
+    public Optional<Student> findByUSN(String usn) {
+        return studentRepository.findById(usn);
+    }
 
 
 }
